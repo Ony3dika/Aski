@@ -37,7 +37,7 @@ const DashBoardLayout = ({ children }) => {
         <p className="mt-5 text-3xl font-semibold">Aski</p>
       </section>
       <section
-        className={`h-screen overflow-y-scroll bg-primary   lg:px-10 px-5 md:py-8 py-5 transition-all duration-500 ease-in-out  ${
+        className={`bg-primary lg:px-10 px-5 transition-all duration-500 ease-in-out  ${
           fullScreen ? "w-screen" : "basis-full"
         }`}
       >

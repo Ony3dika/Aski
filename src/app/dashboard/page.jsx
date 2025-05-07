@@ -43,18 +43,18 @@ const LayoutPage = () => {
     setIsLoading(false);
   };
   return (
-    <main className='h-[90vh] flex flex-col justify-between relative'>
+    <main className={`h-screen  flex flex-col justify-between relative ${fullScreen ? "px-40" : "px-0"}`}>
       {" "}
       <Image
         onClick={() => setFullScreen(!fullScreen)}
         src={menu}
         alt='Logo'
-        className={`dark:bg-transparent bg-foreground rounded-lg ${
+        className={`rounded-lg ${
           fullScreen ? "w-8 md:block hidden" : "hidden"
         }`}
       />
       {/* Chat Display */}
-      <section className='h-full overflow-y-auto'>
+      <section className='h-full overflow-y-scroll'>
         {messages.map((msg, index) => (
           <div
             key={index}
@@ -67,9 +67,10 @@ const LayoutPage = () => {
             <Markdown>{msg.text}</Markdown>
           </div>
         ))}
-        {/* <Markdown>{response}</Markdown> */}
       </section>
-      <section className='flex items-center justify-center absolute w-full bottom-0 '>
+
+      {/* chatbox */}
+      <section className='flex items-center justify-center sticky z-20 w-full bottom-0'>
         <form
           onSubmit={(e) => generateResponse(e)}
           className='w-full flex items-center justify-center'
@@ -99,7 +100,8 @@ const LayoutPage = () => {
               {/* Send */}
               <button
                 className={`p-3 rounded-full bg-primary/30 hover:bg-cta/50 scale-90 hover:scale-105 transition-all duration-300 ease-snappy border border-border cursor-pointer ${
-                  isLoading ? "animate-pulse" : ""}`}
+                  isLoading ? "animate-pulse" : ""
+                }`}
                 onClick={(e) => generateResponse(e)}
                 disabled={isLoading}
               >
