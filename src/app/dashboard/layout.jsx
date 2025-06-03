@@ -13,12 +13,12 @@ const DashBoardLayout = ({ children }) => {
   return (
     <main className='md:flex bg-main'>
       <section
-        className={`h-screen overflow-y-scroll md:overflow-auto py-8 px-8 bg-alt/70 flex-col flex fixed z-20 top-0 transition-all duration-500 ease-in-out border-r border-border rounded-r-lg  ${
+        className={`h-screen overflow-y-scroll md:overflow-auto py-8 px-8 bg-primary text-white flex-col flex fixed z-20 top-0 transition-all duration-500 ease-in-out ${
           mobile ? "left-0 w-4/5 " : "left-[-100%]"
         } ${
           fullScreen
             ? "basis-0 left-[-100%]"
-            : "xl:basis-[25%] md:basis-[50%] md:left-0 md:relative md:w-auto"
+            : "xl:basis-[30%] md:basis-[50%] md:left-0 md:relative md:w-auto"
         }`}
       >
         <Image
@@ -37,7 +37,7 @@ const DashBoardLayout = ({ children }) => {
         <p className="mt-5 text-3xl font-semibold">Aski</p>
       </section>
       <section
-        className={`bg-primary lg:px-10 px-5 transition-all duration-500 ease-in-out  ${
+        className={`bg-white transition-all duration-500 ease-in-out  ${
           fullScreen ? "w-screen" : "basis-full"
         }`}
       >

@@ -43,13 +43,17 @@ const LayoutPage = () => {
     setIsLoading(false);
   };
   return (
-    <main className={`h-screen  flex flex-col justify-between relative ${fullScreen ? "px-40" : "px-0"}`}>
-      {" "}
+    <main
+      className={`h-screen md:px-10 px-5 flex flex-col justify-between relative noise ${
+        fullScreen ? "px-40" : "px-0"
+      }`}
+    >
+      <p className='text-center text-xl font-semibold mt-5'>Aski</p>{" "}
       <Image
         onClick={() => setFullScreen(!fullScreen)}
         src={menu}
         alt='Logo'
-        className={`rounded-lg ${
+        className={`rounded-lg bg-primary ${
           fullScreen ? "w-8 md:block hidden" : "hidden"
         }`}
       />
@@ -58,32 +62,31 @@ const LayoutPage = () => {
         {messages.map((msg, index) => (
           <div
             key={index}
-            className={`message p-3 my-3  ${
+            className={`message p-3 my-3 w-fit ${
               msg.role === "user"
-                ? " place-self-end rounded-br-none rounded-2xl  bg-alt/30 border border-border"
-                : "text-left"
+                ? " place-self-end rounded-br-none rounded-2xl text-white bg-primary"
+                : "text-left border border-border rounded-tl-none rounded-2xl bg-white text-primary"
             }`}
           >
             <Markdown>{msg.text}</Markdown>
           </div>
         ))}
       </section>
-
       {/* chatbox */}
-      <section className='flex items-center justify-center sticky z-20 w-full bottom-0'>
+      <section className='flex items-center justify-center sticky z-20 w-full bottom-0 pb-3'>
         <form
           onSubmit={(e) => generateResponse(e)}
           className='w-full flex items-center justify-center'
         >
           <div
-            className={`h-36 border bg-alt/70 backdrop-blur-md border-border outline-none focus:border-good transition-all duration-200 ease-snappy rounded-3xl p-5 flex flex-col ${
+            className={`h-36 bg-alt/90 text-white backdrop-blur-md outline-none focus:border-good transition-all duration-200 ease-snappy rounded-3xl p-5 flex flex-col ${
               fullScreen ? "w-2/3" : "w-full"
             }`}
           >
             <textarea
               placeholder='Aski something here... 😊'
               value={content}
-              className='w-full border-none outline-none resize-none h-full bg-transparent'
+              className='w-full placeholder:text-white/60 border-none outline-none resize-none h-full bg-transparent'
               onChange={(e) => setContent(e.target.value)}
               onKeyDown={(e) => {
                 if (e.key === "Enter" && !e.shiftKey) {
@@ -93,13 +96,13 @@ const LayoutPage = () => {
             ></textarea>
             <div className='flex justify-between'>
               {/* Add */}
-              <button className='p-3 rounded-full bg-primary/30 hover:bg-cta/50 scale-90 hover:scale-105 transition-all duration-300 ease-snappy border border-border cursor-pointer'>
+              <button className='p-3 rounded-full bg-primary/30 hover:bg-cta/50 scale-90 hover:scale-105 transition-all duration-300 ease-snappy border border-gray-600 cursor-pointer'>
                 {" "}
                 <IoAdd />
               </button>
               {/* Send */}
               <button
-                className={`p-3 rounded-full bg-primary/30 hover:bg-cta/50 scale-90 hover:scale-105 transition-all duration-300 ease-snappy border border-border cursor-pointer ${
+                className={`p-3 rounded-full bg-primary/30 hover:bg-cta/50 scale-90 hover:scale-105 transition-all duration-300 ease-snappy border border-gray-600 cursor-pointer ${
                   isLoading ? "animate-pulse" : ""
                 }`}
                 onClick={(e) => generateResponse(e)}
