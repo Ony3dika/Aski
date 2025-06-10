@@ -11,7 +11,15 @@ export const useStore = create(
         set((state) => ({
           menu: newMenu,
         })),
+
+      mobile: false,
+
+      updateMobile: (newMobile) =>
+        set((state) => ({
+          mobile: newMobile,
+        })),
     }),
+
     {
       name: "aski",
     }

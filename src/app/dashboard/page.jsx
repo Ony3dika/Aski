@@ -9,12 +9,16 @@ import menu from "../../../public/menu.svg";
 import { IoSend, IoAdd, IoStop } from "react-icons/io5";
 
 const LayoutPage = () => {
+  const mobile = useStore((state) => state.mobile);
+  const setMobile = useStore((state) => state.updateMobile);
   const fullScreen = useStore((state) => state.menu);
   const setFullScreen = useStore((state) => state.updateMenu);
   const [isLoading, setIsLoading] = useState(false);
   const [messages, setMessages] = useState([]);
   const [content, setContent] = useState("");
   const [response, setResponse] = useState("");
+
+  
 
   const ai = new GoogleGenAI({
     apiKey: process.env.NEXT_PUBLIC_GEMINI_API_KEY,
@@ -48,6 +52,12 @@ const LayoutPage = () => {
         fullScreen ? "px-40" : "px-0"
       }`}
     >
+      <Image
+        onClick={() => setMobile(!mobile)}
+        src={menu}
+        alt='Logo'
+        className='md:hidden block h-8 w-8 absolute left-5 top-5 bg-primary rounded-lg'
+      />
       <p className='text-center text-xl font-semibold mt-5'>Aski</p>{" "}
       <Image
         onClick={() => setFullScreen(!fullScreen)}
@@ -79,12 +89,12 @@ const LayoutPage = () => {
           className='w-full flex items-center justify-center'
         >
           <div
-            className={`h-36 bg-alt/90 text-white backdrop-blur-md outline-none focus:border-good transition-all duration-200 ease-snappy rounded-3xl p-5 flex flex-col ${
+            className={`h-36 bg-alt text-white backdrop-blur-md outline-none focus:border-good transition-all duration-200 ease-snappy rounded-3xl p-5 flex flex-col ${
               fullScreen ? "w-2/3" : "w-full"
             }`}
           >
             <textarea
-              placeholder='Aski something here... 😊'
+              placeholder='Aski something here...😊'
               value={content}
               className='w-full placeholder:text-white/60 border-none outline-none resize-none h-full bg-transparent'
               onChange={(e) => setContent(e.target.value)}

@@ -1,40 +1,42 @@
 "use client";
 import { useState } from "react";
 import Image from "next/image";
-import bg from "../../public/bg.svg";
+import bg from "../../../public/bg.svg";
 import Link from "next/link";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "./firebase/config.js";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../firebase/config.js";
 import { FaEyeSlash, FaEye } from "react-icons/fa";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { useRouter } from "next/navigation";
 
-export default function Home() {
+const SignUpPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-
   const router = useRouter();
-  const handleSignIn = async (e) => {
+
+  const handleSignUp = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-
     try {
-      const res = await signInWithEmailAndPassword(auth, email, password);
-
+      const res = await createUserWithEmailAndPassword(auth, email, password);
       console.log(res);
       setEmail("");
       setPassword("");
-      setSuccess("Login Successful");
-      sessionStorage.setItem("user", true);
+      setSuccess("Sign up successful!");
       setTimeout(() => {
-        router.push("/dashboard");
+        router.push("/");
       }, 2000);
+    
     } catch (error) {
-      setError("Invalid Credentials");
+      if (error.code === "auth/email-already-in-use") {
+        setError("This email is already registered.");
+      } else {
+        setError("Something went wrong. Please try again.");
+      }
     } finally {
       setIsLoading(false);
       setTimeout(() => {
@@ -43,34 +45,36 @@ export default function Home() {
       }, 3000);
     }
   };
+
   return (
     <main className='bg-white h-screen flex md:flex-row flex-col px-0'>
       <section className='basis-[40%] hidden md:block order-2 md:order-1 bg-primary text-white  h-full w-full mt-0 px-5 md:px-10 py-10 md:py-20'>
         <p className='text-xl font-semibold font-jost'>Aski</p>
 
-        <p className={"text-3xl my-5 font-semibold  font-jost "}>
-          Sign in to continue your journey with Aski
+        <p className={"text-2xl my-5 font-semibold  font-jost "}>
+          Sign up in seconds to start chatting with Aski and get real-time
+          answers to your questions.
         </p>
 
         <Link
-          href='/signup'
+          href='/'
           className='bg-cta px-5 md:px-10 py-2.5 rounded my-5 font-semibold font-jost '
         >
-          Get Started
+          Sign In
         </Link>
 
-        <Image src={bg} alt='backgound' className='rounded my-10' />
+        <Image src={bg} alt='backgound' className='rounded my-10 h-3/5' />
       </section>
 
       <section className='basis-full order-1 md:order-2  md:px-52 px-5 md:py-0 py-20 flex flex-col justify-center md:items-start items-center bg-pattern2'>
         <form
-          onSubmit={handleSignIn}
+          onSubmit={handleSignUp}
           className='flex flex-col items-center w-full bg-white/90 md:py-0 py-10 rounded'
         >
           <h1 className='md:text-3xl text-xl font-bold text-primary-light font-raleway'>
-            Welcome Back
+            Welcome to <span className='text-cta'>Aski</span>
           </h1>
-          <p className='my-4 text-xl'>Sign In to Aski</p>
+          <p className='my-4 text-xl'>Sign Up</p>
 
           <input
             type='email'
@@ -112,17 +116,19 @@ export default function Home() {
             {isLoading ? (
               <AiOutlineLoading3Quarters className='animate-spin' />
             ) : (
-              "Sign In"
+              "Sign Up"
             )}
           </button>
           <p className='w-2/3 text-sm text-center text-black/50 mt-3'>
-            Don&apos;t have an account?{" "}
-            <Link href='/signup' className='text-alt underline'>
-              Sign Up
+            Have an account?{" "}
+            <Link href='/' className='text-alt underline'>
+              Sign In
             </Link>
           </p>
         </form>
       </section>
     </main>
   );
-}
+};
+
+export default SignUpPage;
