@@ -18,14 +18,14 @@ body {
 }
 
 .bg-pattern {
-  background: url(../../public/bg.svg);
+  background: url(../../../public/bg.svg);
   background-size: cover;
   background-repeat: no-repeat;
 }
 
 .bg-pattern2 {
   @media (width < 48rem /* 768px */) {
-    background: url(../../public/bg.svg);
+    background: url(../../../public/bg.svg);
     background-size: cover;
     background-repeat: no-repeat;
   }
@@ -53,7 +53,7 @@ body {
 }
 
 /* .noise {
-  background: url(../../public/noise2.svg);
+  background: url(../../../public/noise2.svg);
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;

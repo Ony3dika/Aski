@@ -1,5 +1,5 @@
 import { Raleway, Jost, Mona_Sans } from "next/font/google";
-import "./globals.css";
+import "./styles/globals.css";
 
 const raleway = Raleway({
   subsets: ["latin"],
