@@ -17,7 +17,7 @@ const DashBoardLayout = ({ children }) => {
   const fullScreen = useStore((state) => state.menu);
   const setFullScreen = useStore((state) => state.updateMenu);
   const userData = useStore((state) => state.user);
-  const userSession = sessionStorage.getItem("user");
+  // const userSession = sessionStorage.getItem("user");
 
   // console.log(user);
   // if (!user && !userSession) {
@@ -80,7 +80,7 @@ const DashBoardLayout = ({ children }) => {
               className='cursor-pointer ease-linear transition-all duration-300 hover:text-cta'
               onClick={() => {
                 signOut(auth);
-                sessionStorage.removeItem("user");
+                // sessionStorage.removeItem("user");
               }}
             >
               <IoLogOutOutline className='h-6 w-6 mr-3' />

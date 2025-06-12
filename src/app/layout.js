@@ -1,4 +1,4 @@
-import { Raleway, Jost, Mona_Sans } from "next/font/google";
+import { Raleway, } from "next/font/google";
 import "./styles/globals.css";
 
 const raleway = Raleway({
@@ -7,17 +7,6 @@ const raleway = Raleway({
   variable: "--font-raleway",
 });
 
-const jost = Jost({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "900"],
-  variable: "--font-jost",
-});
-
-const mona = Mona_Sans({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800", "900"],
-  variable: "--font-mona",
-});
 
 export const metadata = {
   title: "Aski",
