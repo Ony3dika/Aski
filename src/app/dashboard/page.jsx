@@ -1,15 +1,17 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { GoogleGenAI } from "@google/genai";
 import Markdown from "react-markdown";
 import Image from "next/image";
 import { useStore } from "../store";
 import menu from "../../../public/menu.svg";
+import loading from "../../../public/loading.svg";
 import { IoSend, IoAdd, IoStop } from "react-icons/io5";
 
 const LayoutPage = () => {
   const mobile = useStore((state) => state.mobile);
+  const user = useStore((state) => state.user);
   const setMobile = useStore((state) => state.updateMobile);
   const fullScreen = useStore((state) => state.menu);
   const setFullScreen = useStore((state) => state.updateMenu);
@@ -17,9 +19,7 @@ const LayoutPage = () => {
   const [messages, setMessages] = useState([]);
   const [content, setContent] = useState("");
   const [response, setResponse] = useState("");
-
-  
-
+  const bottomRef = useRef(null);
   const ai = new GoogleGenAI({
     apiKey: process.env.NEXT_PUBLIC_GEMINI_API_KEY,
   });
@@ -28,24 +28,34 @@ const LayoutPage = () => {
     e.preventDefault();
     setIsLoading(true);
 
-    // Add user message
-    const userMessage = { role: "user", text: content };
-    setMessages((prev) => [...prev, userMessage]);
+    try {
+      // Add user message
+      const userMessage = { role: "user", text: content };
+      setMessages((prev) => [...prev, userMessage]);
 
-    const response = await ai.models.generateContent({
-      model: "gemini-2.0-flash",
-      contents: content,
-    });
+      const response = await ai.models.generateContent({
+        model: "gemini-2.0-flash",
+        contents: content,
+      });
 
-    const aiMessage = { role: "ai", text: response.text };
-    setMessages((prev) => [...prev, aiMessage]);
+      const aiMessage = { role: "ai", text: response.text };
+      setMessages((prev) => [...prev, aiMessage]);
 
-    // Clear input
-    setContent("");
-    console.log(response.text);
-    setResponse(response.text);
-    setIsLoading(false);
+      // Clear input
+      setContent("");
+      console.log(response.text);
+      setResponse(response.text);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
   };
+
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages, isLoading]);
+
   return (
     <main
       className={`h-screen md:px-10 px-5 flex flex-col justify-between relative noise ${
@@ -81,6 +91,11 @@ const LayoutPage = () => {
             <Markdown>{msg.text}</Markdown>
           </div>
         ))}
+
+        {isLoading && (
+          <Image src={loading} alt='Loading' className='mt-4 h-12 w-12' />
+        )}
+        <div ref={bottomRef} />
       </section>
       {/* chatbox */}
       <section className='flex items-center justify-center sticky z-20 w-full bottom-0 pb-3'>
@@ -106,7 +121,10 @@ const LayoutPage = () => {
             ></textarea>
             <div className='flex justify-between'>
               {/* Add */}
-              <button className='p-3 rounded-full bg-primary/30 hover:bg-cta/50 scale-90 hover:scale-105 transition-all duration-300 ease-snappy border border-gray-600 cursor-pointer'>
+              <button
+                disabled={isLoading}
+                className='p-3 rounded-full bg-primary/30 hover:bg-cta/50 scale-90 hover:scale-105 transition-all duration-300 ease-snappy border border-gray-600 cursor-pointer'
+              >
                 {" "}
                 <IoAdd />
               </button>

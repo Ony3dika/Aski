@@ -52,12 +52,12 @@ body {
   animation: shake 1s ease-in-out 2;
 }
 
-.noise {
+/* .noise {
   background: url(../../public/noise2.svg);
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;
-}
+} */
 
 ::-webkit-scrollbar {
   width: 5px;

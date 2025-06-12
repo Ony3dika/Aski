@@ -12,11 +12,19 @@ export const useStore = create(
           menu: newMenu,
         })),
 
+      //Mobile Menu
       mobile: false,
 
       updateMobile: (newMobile) =>
         set((state) => ({
           mobile: newMobile,
+        })),
+
+      //User
+      user: null,
+      updateUser: (newUser) =>
+        set((state) => ({
+          user: newUser,
         })),
     }),
 

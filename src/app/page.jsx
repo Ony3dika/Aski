@@ -2,9 +2,16 @@
 import { useState } from "react";
 import Image from "next/image";
 import bg from "../../public/bg.svg";
+import google from "../../public/google.svg";
 import Link from "next/link";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "./firebase/config.js";
+import {
+  signInWithEmailAndPassword,
+  getAuth,
+  GoogleAuthProvider,
+  signInWithPopup,
+} from "firebase/auth";
+import { auth as auth2} from "./firebase/config";
+import { useStore } from "./store";
 import { FaEyeSlash, FaEye } from "react-icons/fa";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { useRouter } from "next/navigation";
@@ -16,16 +23,41 @@ export default function Home() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const setUser = useStore((state) => state.updateUser);
 
+  const auth = getAuth();
+  const provider = new GoogleAuthProvider();
   const router = useRouter();
+
+  // Google Sign In
+  const handleGoogleSignIn = async () => {
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+
+      setSuccess("Login Successful");
+      sessionStorage.setItem("user", true);
+      setTimeout(() => {
+        router.push("/dashboard");
+      }, 2000);
+      console.log("Google Sign-In success:", user);
+      setUser(user);
+    } catch (error) {
+      setError("Google Auth Failed");
+      console.error("Google Sign-In Error:", error.code, error.message);
+    }
+  };
+
+  // Sign In
   const handleSignIn = async (e) => {
     e.preventDefault();
     setIsLoading(true);
 
     try {
-      const res = await signInWithEmailAndPassword(auth, email, password);
+      const res = await signInWithEmailAndPassword(auth2, email, password);
 
       console.log(res);
+      setUser(res.user);
       setEmail("");
       setPassword("");
       setSuccess("Login Successful");
@@ -43,6 +75,7 @@ export default function Home() {
       }, 3000);
     }
   };
+
   return (
     <main className='bg-white h-screen flex md:flex-row flex-col px-0'>
       <section className='basis-[40%] hidden md:block order-2 md:order-1 bg-primary text-white  h-full w-full mt-0 px-5 md:px-10 py-10 md:py-20'>
@@ -63,15 +96,25 @@ export default function Home() {
       </section>
 
       <section className='basis-full order-1 md:order-2  md:px-52 px-5 md:py-0 py-20 flex flex-col justify-center md:items-start items-center bg-pattern2'>
+        <div className='items-center flex flex-col md:py-0 py-10 justify-center w-full bg-white/90 rounded'>
+          <h1 className='md:text-3xl text-xl font-bold text-primary-light font-raleway text-center w-full'>
+            Welcome Back
+          </h1>
+          <p className='my-4 text-xl text-center w-full'>Sign In to Aski</p>
+          <button
+            onClick={handleGoogleSignIn}
+            className='flex items-center justify-center border border-border md:w-2/3 w-5/6 my-2 py-2 md:py-4 px-4 rounded-full font-semibold cursor-pointer transition-all duration-300 ease-linear hover:bg-alt hover:text-white'
+          >
+            <Image src={google} className='mr-4' alt='google-icon' />
+            Sign in with Google
+          </button>
+        </div>
+
+        <p className='text-center w-full font-semibold'>OR</p>
         <form
           onSubmit={handleSignIn}
           className='flex flex-col items-center w-full bg-white/90 md:py-0 py-10 rounded'
         >
-          <h1 className='md:text-3xl text-xl font-bold text-primary-light font-raleway'>
-            Welcome Back
-          </h1>
-          <p className='my-4 text-xl'>Sign In to Aski</p>
-
           <input
             type='email'
             onChange={(e) => setEmail(e.target.value)}
