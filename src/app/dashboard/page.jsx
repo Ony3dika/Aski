@@ -36,6 +36,10 @@ const LayoutPage = () => {
       const response = await ai.models.generateContent({
         model: "gemini-2.0-flash",
         contents: content,
+        config: {
+          systemInstruction:
+            "You are Aski, a helpful AI customer support. Only answer questions related to our products, services, orders, delivery, returns, or technical support. If the question is unrelated to customer support, politely say you cannot help with that.",
+        },
       });
 
       const aiMessage = { role: "ai", text: response.text };
@@ -78,14 +82,16 @@ const LayoutPage = () => {
         }`}
       />
       {/* Chat Display */}
-      <section className='h-full overflow-y-scroll'>
+      <section
+        className={`${fullScreen ? "md:px-32" : ""} h-full overflow-y-scroll `}
+      >
         {messages.map((msg, index) => (
           <div
             key={index}
-            className={`message p-3 my-3 w-fit ${
+            className={`message p-3 my-3 ${
               msg.role === "user"
-                ? " place-self-end rounded-br-none rounded-2xl text-white bg-primary"
-                : "text-left border border-border rounded-tl-none rounded-2xl bg-white text-primary"
+                ? " place-self-end rounded-br-none rounded-2xl text-white bg-primary w-fit"
+                : "text-left border border-border rounded-tl-none rounded-2xl bg-white text-primary min-w-64 md:max-w-2/3 max-w-fit"
             }`}
           >
             <Markdown>{msg.text}</Markdown>
