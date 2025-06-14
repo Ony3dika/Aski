@@ -3,26 +3,18 @@ import Image from "next/image";
 import { useStore } from "../store";
 import menu from "../../../public/menu.svg";
 import { signOut } from "firebase/auth";
-import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../firebase/config.js";
 import { useRouter } from "next/navigation";
 import { IoLogOutOutline } from "react-icons/io5";
 import { PiUserCircleThin } from "react-icons/pi";
 
 const DashBoardLayout = ({ children }) => {
-  const [user] = useAuthState(auth);
   const router = useRouter();
   const mobile = useStore((state) => state.mobile);
   const setMobile = useStore((state) => state.updateMobile);
   const fullScreen = useStore((state) => state.menu);
   const setFullScreen = useStore((state) => state.updateMenu);
   const userData = useStore((state) => state.user);
-  const userSession = sessionStorage.getItem("user");
-
-  console.log(user);
-  if (!user && !userSession) {
-    router.push("/");
-  }
 
   return (
     <main className='md:flex bg-main'>
@@ -80,7 +72,7 @@ const DashBoardLayout = ({ children }) => {
               className='cursor-pointer ease-linear transition-all duration-300 hover:text-cta'
               onClick={() => {
                 signOut(auth);
-                sessionStorage.removeItem("user");
+                router.push("/");
               }}
             >
               <IoLogOutOutline className='h-6 w-6 mr-3' />
