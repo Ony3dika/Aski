@@ -2,9 +2,18 @@
 import { useState } from "react";
 import Image from "next/image";
 import bg from "../../../public/bg.svg";
+import google from "../../../public/google.svg";
+import aski from "../../../public/aski-wh.svg";
+import aski2 from "../../../public/aski-bl.svg";
 import Link from "next/link";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebase/config.js";
+import {
+  createUserWithEmailAndPassword,
+  getAuth,
+  GoogleAuthProvider,
+  signInWithPopup,
+} from "firebase/auth";
+import { auth as auth2 } from "../firebase/config.js";
+import { useStore } from "../store";
 import { FaEyeSlash, FaEye } from "react-icons/fa";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { useRouter } from "next/navigation";
@@ -16,13 +25,36 @@ const SignUpPage = () => {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const router = useRouter();
+  const setUser = useStore((state) => state.updateUser);
 
+  const router = useRouter();
+  const auth = getAuth();
+  const provider = new GoogleAuthProvider();
+
+  //Google Sign Up
+  const handleGoogleSignUp = async () => {
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+
+      setSuccess("Sign Up Successful");
+      setTimeout(() => {
+        router.push("/dashboard");
+      }, 2000);
+      console.log("Google Sign-Up success:", user);
+      setUser(user);
+    } catch (error) {
+      setError("Google Auth Failed");
+      console.error("Google Sign-In Error:", error.code, error.message);
+    }
+  };
+
+  // Sign Up
   const handleSignUp = async (e) => {
     e.preventDefault();
     setIsLoading(true);
     try {
-      const res = await createUserWithEmailAndPassword(auth, email, password);
+      const res = await createUserWithEmailAndPassword(auth2, email, password);
       console.log(res);
       setEmail("");
       setPassword("");
@@ -30,7 +62,6 @@ const SignUpPage = () => {
       setTimeout(() => {
         router.push("/");
       }, 2000);
-    
     } catch (error) {
       if (error.code === "auth/email-already-in-use") {
         setError("This email is already registered.");
@@ -49,16 +80,19 @@ const SignUpPage = () => {
   return (
     <main className='bg-white h-screen flex md:flex-row flex-col px-0'>
       <section className='basis-[40%] hidden md:block order-2 md:order-1 bg-primary text-white  h-full w-full mt-0 px-5 md:px-10 py-10 md:py-20'>
-        <p className='text-xl font-semibold font-jost'>Aski</p>
+        <div className='flex items-center'>
+          <Image src={aski} alt='aski' className='h-10 w-10 mr-3' />
+          <p className='text-xl font-semibold'>Aski</p>
+        </div>
 
-        <p className={"text-2xl my-5 font-semibold  font-jost "}>
+        <p className='text-2xl my-5 font-semibold'>
           Sign up in seconds to start chatting with Aski and get real-time
           answers to your questions.
         </p>
 
         <Link
           href='/'
-          className='bg-cta px-5 md:px-10 py-2.5 rounded my-5 font-semibold font-jost '
+          className='bg-cta px-5 md:px-10 py-2.5 rounded my-5 font-semibold'
         >
           Sign In
         </Link>
@@ -67,15 +101,26 @@ const SignUpPage = () => {
       </section>
 
       <section className='basis-full order-1 md:order-2  md:px-52 px-5 md:py-0 py-20 flex flex-col justify-center md:items-start items-center bg-pattern2'>
+        <div className='items-center flex flex-col md:py-0 py-10 justify-center w-full bg-white/90 rounded'>
+          <Image src={aski2} className='h-10 w-10' />
+          <h1 className='md:text-3xl text-xl font-bold text-primary-light mt-5'>
+            Welcome to <span className='text-cta'>Aski</span>
+          </h1>
+          <p className='my-4 text-xl'>Sign Up</p>
+          <button
+            onClick={handleGoogleSignUp}
+            className='flex items-center justify-center border border-border md:w-2/3 w-5/6 my-2 py-2 md:py-4 px-4 rounded-full font-semibold cursor-pointer transition-all duration-300 ease-linear hover:bg-alt hover:text-white'
+          >
+            <Image src={google} className='mr-4' alt='google-icon' />
+            Sign Up with Google
+          </button>
+        </div>
+
+        <p className='text-center w-full font-semibold'>OR</p>
         <form
           onSubmit={handleSignUp}
           className='flex flex-col items-center w-full bg-white/90 md:py-0 py-10 rounded'
         >
-          <h1 className='md:text-3xl text-xl font-bold text-primary-light font-raleway'>
-            Welcome to <span className='text-cta'>Aski</span>
-          </h1>
-          <p className='my-4 text-xl'>Sign Up</p>
-
           <input
             type='email'
             onChange={(e) => setEmail(e.target.value)}

@@ -1,6 +1,6 @@
 export default function manifest() {
   return {
-    name: "Aski - AI Chat Support",
+    name: "Aski",
     short_name: "Aski",
     description: "A Progressive Web App built with Next.js",
     start_url: "/",
@@ -9,14 +9,14 @@ export default function manifest() {
     theme_color: "#000000",
     icons: [
       {
-        src: "/icon-192x192.png",
+        src: "/aski.svg",
         sizes: "192x192",
-        type: "image/png",
+        type: "image/svg",
       },
       {
-        src: "/icon-512x512.png",
+        src: "/aski.svg",
         sizes: "512x512",
-        type: "image/png",
+        type: "image/svg",
       },
     ],
   };

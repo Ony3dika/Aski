@@ -7,6 +7,7 @@ import Image from "next/image";
 import { useStore } from "../store";
 import menu from "../../../public/menu.svg";
 import loading from "../../../public/loading.svg";
+import aski from "../../../public/aski-bl.svg";
 import { IoSend, IoAdd, IoStop } from "react-icons/io5";
 
 const LayoutPage = () => {
@@ -72,7 +73,10 @@ const LayoutPage = () => {
         alt='Logo'
         className='md:hidden block h-8 w-8 absolute left-5 top-5 bg-primary rounded-lg'
       />
-      <p className='text-center text-xl font-semibold mt-5'>Aski</p>{" "}
+      <div className='flex items-center justify-center mt-5'>
+        <Image src={aski} className='h-8 w-8' />
+        <p className='text-xl font-semibold ml-3'>Aski</p>{" "}
+      </div>
       <Image
         onClick={() => setFullScreen(!fullScreen)}
         src={menu}

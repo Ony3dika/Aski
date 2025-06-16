@@ -31,6 +31,13 @@ body {
   }
 }
 
+
+.menu{
+  background:  #080808 url(../../../public/ttten.svg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
 @keyframes shake {
   0%,
   60%,

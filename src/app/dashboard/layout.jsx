@@ -3,12 +3,15 @@ import Image from "next/image";
 import { useStore } from "../store";
 import menu from "../../../public/menu.svg";
 import { signOut } from "firebase/auth";
+import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../firebase/config.js";
+import aski from "../../../public/aski-wh.svg";
 import { useRouter } from "next/navigation";
 import { IoLogOutOutline } from "react-icons/io5";
 import { PiUserCircleThin } from "react-icons/pi";
 
 const DashBoardLayout = ({ children }) => {
+  const [user] = useAuthState(auth);
   const router = useRouter();
   const mobile = useStore((state) => state.mobile);
   const setMobile = useStore((state) => state.updateMobile);
@@ -16,10 +19,15 @@ const DashBoardLayout = ({ children }) => {
   const setFullScreen = useStore((state) => state.updateMenu);
   const userData = useStore((state) => state.user);
 
+  console.log(user);
+  if (!user ) {
+    router.push("/");
+  }
+
   return (
     <main className='md:flex bg-main'>
       <section
-        className={`h-screen overflow-y-scroll md:overflow-auto py-8 px-8 bg-primary text-white flex-col flex  fixed z-40 top-0 transition-all duration-500 ease-in-out ${
+        className={`h-screen overflow-y-scroll md:overflow-auto py-8 px-8 bg-primary text-white flex-col flex  fixed z-40 top-0 transition-all duration-500 ease-in-out isolate menu ${
           mobile ? "left-0 w-4/5 " : "left-[-100%]"
         } ${
           fullScreen
@@ -29,7 +37,10 @@ const DashBoardLayout = ({ children }) => {
       >
         <div className='flex items-center justify-between'>
           {" "}
-          <p className='ml-3 text-3xl font-semibold'>Aski</p>
+          <div className='flex items-center'>
+            <Image src={aski} className="h-10 w-10" alt='aski' />
+            <p className='ml-3 text-3xl font-semibold'> Aski</p>
+          </div>
           <Image
             onClick={() => setFullScreen(!fullScreen)}
             src={menu}

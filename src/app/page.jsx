@@ -2,6 +2,8 @@
 import { useState } from "react";
 import Image from "next/image";
 import bg from "../../public/bg.svg";
+import aski from "../../public/aski-wh.svg";
+import aski2 from "../../public/aski-bl.svg";
 import google from "../../public/google.svg";
 import Link from "next/link";
 import {
@@ -36,7 +38,6 @@ export default function Home() {
       const user = result.user;
 
       setSuccess("Login Successful");
-      sessionStorage.setItem("user", true);
       setTimeout(() => {
         router.push("/dashboard");
       }, 2000);
@@ -61,7 +62,6 @@ export default function Home() {
       setEmail("");
       setPassword("");
       setSuccess("Login Successful");
-      sessionStorage.setItem("user", true);
       setTimeout(() => {
         router.push("/dashboard");
       }, 2000);
@@ -78,16 +78,19 @@ export default function Home() {
 
   return (
     <main className='bg-white h-screen flex md:flex-row flex-col px-0'>
-      <section className='basis-[40%] hidden md:block order-2 md:order-1 bg-primary text-white  h-full w-full mt-0 px-5 md:px-10 py-10 md:py-20'>
-        <p className='text-xl font-semibold font-jost'>Aski</p>
+      <section className='basis-[40%] hidden md:block order-2 md:order-1 bg-primary text-white h-full w-full mt-0 px-5 md:px-10 py-10 md:py-20'>
+        <div className='flex items-center'>
+        <Image src={aski} alt="aski" className="h-10 w-10 mr-3"/>
+          <p className='text-xl font-semibold'>Aski</p>
+        </div>
 
-        <p className={"text-3xl my-5 font-semibold  font-jost "}>
+        <p className='text-3xl my-5 font-semibold'>
           Sign in to continue your journey with Aski
         </p>
 
         <Link
           href='/signup'
-          className='bg-cta px-5 md:px-10 py-2.5 rounded my-5 font-semibold font-jost '
+          className='bg-cta px-5 md:px-10 py-2.5 rounded my-5 font-semibold'
         >
           Get Started
         </Link>
@@ -97,7 +100,8 @@ export default function Home() {
 
       <section className='basis-full order-1 md:order-2  md:px-52 px-5 md:py-0 py-20 flex flex-col justify-center md:items-start items-center bg-pattern2'>
         <div className='items-center flex flex-col md:py-0 py-10 justify-center w-full bg-white/90 rounded'>
-          <h1 className='md:text-3xl text-xl font-bold text-primary-light font-raleway text-center w-full'>
+        <Image src={aski2} className="h-10 w-10"/>
+          <h1 className='md:text-3xl text-xl font-bold text-primary-light text-center w-full mt-5'>
             Welcome Back
           </h1>
           <p className='my-4 text-xl text-center w-full'>Sign In to Aski</p>
