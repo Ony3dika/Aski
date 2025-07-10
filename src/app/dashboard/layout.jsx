@@ -19,7 +19,6 @@ const DashBoardLayout = ({ children }) => {
   const setFullScreen = useStore((state) => state.updateMenu);
   const userData = useStore((state) => state.user);
 
-  console.log(user);
   if (!user ) {
     router.push("/");
   }

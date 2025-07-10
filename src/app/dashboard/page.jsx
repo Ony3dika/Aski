@@ -8,6 +8,8 @@ import { useStore } from "../store";
 import menu from "../../../public/menu.svg";
 import loading from "../../../public/loading.svg";
 import aski from "../../../public/aski-bl.svg";
+import { db } from "../firebase/config.js";
+import { doc, setDoc, getDoc } from "firebase/firestore";
 import { IoSend, IoAdd, IoStop } from "react-icons/io5";
 
 const LayoutPage = () => {
@@ -27,6 +29,7 @@ const LayoutPage = () => {
 
   const generateResponse = async (e) => {
     e.preventDefault();
+    if(!content) return
     setIsLoading(true);
 
     try {
@@ -45,7 +48,6 @@ const LayoutPage = () => {
 
       const aiMessage = { role: "ai", text: response.text };
       setMessages((prev) => [...prev, aiMessage]);
-
       // Clear input
       setContent("");
       console.log(response.text);
@@ -54,8 +56,53 @@ const LayoutPage = () => {
       console.log(error);
     } finally {
       setIsLoading(false);
+      addDataToFirebase();
     }
   };
+
+  // Save Messages
+  const addDataToFirebase = async () => {
+    if (!user) return;
+
+    try {
+      const docRef = doc(db, "chats", user.email);
+
+      await setDoc(docRef, {
+        uid: user.uid,
+        messages: messages,
+      });
+
+      console.log("Messages saved for user:", user.uid);
+    } catch (e) {
+      console.error("Error saving messages:", e);
+    }
+  };
+
+  //Fetch Messages
+  const getMessagesFromFirebase = async (user) => {
+    if (!user) return null;
+
+    try {
+      const docRef = doc(db, "chats", user.email);
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+        console.log("Messages fetched:", data.messages);
+        setMessages(data.messages);
+      } else {
+        console.log("No messages found for user:", user.email);
+        return [];
+      }
+    } catch (e) {
+      console.error("Error fetching messages:", e);
+      return null;
+    }
+  };
+
+  useEffect(() => {
+    getMessagesFromFirebase(user);
+  }, []);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -74,7 +121,7 @@ const LayoutPage = () => {
         className='md:hidden block h-8 w-8 absolute left-5 top-5 bg-primary rounded-lg'
       />
       <div className='flex items-center justify-center mt-5'>
-        <Image src={aski} className='h-8 w-8' />
+        <Image src={aski} alt='aski' className='h-8 w-8' />
         <p className='text-xl font-semibold ml-3'>Aski</p>{" "}
       </div>
       <Image
@@ -121,6 +168,7 @@ const LayoutPage = () => {
             <textarea
               placeholder='Aski something here...😊'
               value={content}
+              required
               className='w-full placeholder:text-white/60 border-none outline-none resize-none h-full bg-transparent'
               onChange={(e) => setContent(e.target.value)}
               onKeyDown={(e) => {

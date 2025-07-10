@@ -80,7 +80,7 @@ export default function Home() {
     <main className='bg-white h-screen flex md:flex-row flex-col px-0'>
       <section className='basis-[40%] hidden md:block order-2 md:order-1 bg-primary text-white h-full w-full mt-0 px-5 md:px-10 py-10 md:py-20'>
         <div className='flex items-center'>
-        <Image src={aski} alt="aski" className="h-10 w-10 mr-3"/>
+          <Image src={aski} alt='aski' className='h-10 w-10 mr-3' />
           <p className='text-xl font-semibold'>Aski</p>
         </div>
 
@@ -100,7 +100,7 @@ export default function Home() {
 
       <section className='basis-full order-1 md:order-2  md:px-52 px-5 md:py-0 py-20 flex flex-col justify-center md:items-start items-center bg-pattern2'>
         <div className='items-center flex flex-col md:py-0 py-10 justify-center w-full bg-white/90 rounded'>
-        <Image src={aski2} className="h-10 w-10"/>
+          <Image src={aski2} className='h-10 w-10' />
           <h1 className='md:text-3xl text-xl font-bold text-primary-light text-center w-full mt-5'>
             Welcome Back
           </h1>
@@ -121,12 +121,14 @@ export default function Home() {
         >
           <input
             type='email'
+            required
             onChange={(e) => setEmail(e.target.value)}
             className='md:w-2/3 w-5/6 my-2 py-2 md:py-4 px-4 rounded-xl outline-none text-copy-light transition-all duration-200 ease-in-out focus:border-cta/30 border-border border-[1px]'
             placeholder='Email Address'
           />
           <div className='relative md:w-2/3 w-5/6'>
             <input
+              required
               type={showPassword ? "text" : "password"}
               onChange={(e) => setPassword(e.target.value)}
               className='w-full my-2 py-2 md:py-4 px-4 rounded-xl outline-none text-copy-light transition-all duration-200 ease-in-out focus:border-cta/30 border-border border-[1px]'

@@ -123,12 +123,14 @@ const SignUpPage = () => {
         >
           <input
             type='email'
+            required
             onChange={(e) => setEmail(e.target.value)}
             className='md:w-2/3 w-5/6 my-2 py-2 md:py-4 px-4 rounded-xl outline-none text-copy-light transition-all duration-200 ease-in-out focus:border-cta/30 border-border border-[1px]'
             placeholder='Email Address'
           />
           <div className='relative md:w-2/3 w-5/6'>
             <input
+              required
               type={showPassword ? "text" : "password"}
               onChange={(e) => setPassword(e.target.value)}
               className='w-full my-2 py-2 md:py-4 px-4 rounded-xl outline-none text-copy-light transition-all duration-200 ease-in-out focus:border-cta/30 border-border border-[1px]'
