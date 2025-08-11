@@ -12,11 +12,12 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
 } from "firebase/auth";
-import { auth as auth2} from "./firebase/config";
+import { auth as auth2 } from "./firebase/config";
 import { useStore } from "./store";
 import { FaEyeSlash, FaEye } from "react-icons/fa";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 export default function Home() {
   const [email, setEmail] = useState("");
@@ -37,14 +38,14 @@ export default function Home() {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
 
-      setSuccess("Login Successful");
+      toast.success("Login Successful");
       setTimeout(() => {
         router.push("/dashboard");
       }, 2000);
       console.log("Google Sign-In success:", user);
       setUser(user);
     } catch (error) {
-      setError("Google Auth Failed");
+      toast.error("Google Auth Failed");
       console.error("Google Sign-In Error:", error.code, error.message);
     }
   };
@@ -61,18 +62,14 @@ export default function Home() {
       setUser(res.user);
       setEmail("");
       setPassword("");
-      setSuccess("Login Successful");
+      toast.success("Sign In Successful");
       setTimeout(() => {
         router.push("/dashboard");
       }, 2000);
     } catch (error) {
-      setError("Invalid Credentials");
+      toast.error("Invalid Credentials");
     } finally {
       setIsLoading(false);
-      setTimeout(() => {
-        setError("");
-        setSuccess("");
-      }, 3000);
     }
   };
 
@@ -100,7 +97,7 @@ export default function Home() {
 
       <section className='basis-full order-1 md:order-2  md:px-52 px-5 md:py-0 py-20 flex flex-col justify-center md:items-start items-center bg-pattern2'>
         <div className='items-center flex flex-col md:py-0 py-10 justify-center w-full bg-white/90 rounded'>
-          <Image src={aski2} className='h-10 w-10' />
+          <Image alt='aski' src={aski2} className='h-10 w-10' />
           <h1 className='md:text-3xl text-xl font-bold text-primary-light text-center w-full mt-5'>
             Welcome Back
           </h1>
@@ -142,16 +139,7 @@ export default function Home() {
               {showPassword ? <FaEyeSlash /> : <FaEye />}
             </button>
           </div>
-          {success && (
-            <p className='mt-3 md:w-2/3 w-5/6 md:py-4 py-2 rounded-xl duration-300 transition-all ease-in-out px-4 bg-green-400 text-white text-center'>
-              {success}
-            </p>
-          )}
-          {error && (
-            <p className='mt-3 md:w-2/3 w-5/6 md:py-4 py-2 rounded-xl duration-300 transition-all ease-in-out px-4 bg-red-400 text-white shake text-center'>
-              {error}
-            </p>
-          )}
+
           <button
             disabled={isLoading}
             className={`w-2/3 mt-4 py-3 md:py-4 transition-all cursor-pointer duration-200 ease-in-out px-4 rounded-full bg-alt text-white text-copy-light font-semibold text-lg flex items-center justify-center  ${

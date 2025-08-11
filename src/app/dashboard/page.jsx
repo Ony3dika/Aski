@@ -5,19 +5,16 @@ import { GoogleGenAI } from "@google/genai";
 import Markdown from "react-markdown";
 import Image from "next/image";
 import { useStore } from "../store";
-import menu from "../../../public/menu.svg";
 import loading from "../../../public/loading.svg";
 import aski from "../../../public/aski-bl.svg";
 import { db } from "../firebase/config.js";
 import { doc, setDoc, getDoc } from "firebase/firestore";
 import { IoSend, IoAdd, IoStop } from "react-icons/io5";
+import { SidebarTrigger } from "@/components/ui/sidebar";
 
 const LayoutPage = () => {
-  const mobile = useStore((state) => state.mobile);
   const user = useStore((state) => state.user);
-  const setMobile = useStore((state) => state.updateMobile);
-  const fullScreen = useStore((state) => state.menu);
-  const setFullScreen = useStore((state) => state.updateMenu);
+
   const [isLoading, setIsLoading] = useState(false);
   const [messages, setMessages] = useState([]);
   const [content, setContent] = useState("");
@@ -29,7 +26,7 @@ const LayoutPage = () => {
 
   const generateResponse = async (e) => {
     e.preventDefault();
-    if(!content) return
+    if (!content) return;
     setIsLoading(true);
 
     try {
@@ -110,32 +107,18 @@ const LayoutPage = () => {
 
   return (
     <main
-      className={`h-screen md:px-10 px-5 flex flex-col justify-between relative noise ${
-        fullScreen ? "px-40" : "px-0"
-      }`}
+      className={`h-screen w-full md:px-10 px-5 flex flex-col justify-between relative noise`}
     >
-      <Image
-        onClick={() => setMobile(!mobile)}
-        src={menu}
-        alt='Logo'
-        className='md:hidden block h-8 w-8 absolute left-5 top-5 bg-primary rounded-lg'
-      />
-      <div className='flex items-center justify-center mt-5'>
-        <Image src={aski} alt='aski' className='h-8 w-8' />
-        <p className='text-xl font-semibold ml-3'>Aski</p>{" "}
+      <div className='flex items-center'>
+        <SidebarTrigger />
+        <div className='flex items-center basis-2/3 justify-center mt-5'>
+          <Image src={aski} alt='aski' className='h-8 w-8' />
+          <p className='text-xl font-semibold ml-3'>Aski</p>{" "}
+        </div>
       </div>
-      <Image
-        onClick={() => setFullScreen(!fullScreen)}
-        src={menu}
-        alt='Logo'
-        className={`rounded-lg bg-primary ${
-          fullScreen ? "w-8 md:block hidden" : "hidden"
-        }`}
-      />
+
       {/* Chat Display */}
-      <section
-        className={`${fullScreen ? "md:px-32" : ""} h-full overflow-y-scroll `}
-      >
+      <section className={`h-full overflow-y-scroll `}>
         {messages.map((msg, index) => (
           <div
             key={index}
@@ -155,21 +138,19 @@ const LayoutPage = () => {
         <div ref={bottomRef} />
       </section>
       {/* chatbox */}
-      <section className='flex items-center justify-center sticky z-20 w-full bottom-0 pb-3'>
+      <section className='flex items-center justify-center sticky z-20 bottom-0 pb-3'>
         <form
           onSubmit={(e) => generateResponse(e)}
           className='w-full flex items-center justify-center'
         >
           <div
-            className={`h-36 bg-alt text-white backdrop-blur-md outline-none focus:border-good transition-all duration-200 ease-snappy rounded-3xl p-5 flex flex-col ${
-              fullScreen ? "w-2/3" : "w-full"
-            }`}
+            className={`md:h-36 h-24 bg-alt text-white backdrop-blur-md outline-none focus:border-good transition-all duration-200 ease-snappy rounded-3xl p-5 flex flex-col md:w-2/3 w-full`}
           >
             <textarea
               placeholder='Aski something here...😊'
               value={content}
               required
-              className='w-full placeholder:text-white/60 border-none outline-none resize-none h-full bg-transparent'
+              className=' placeholder:text-white/60 border-none outline-none resize-none h-full bg-transparent'
               onChange={(e) => setContent(e.target.value)}
               onKeyDown={(e) => {
                 if (e.key === "Enter" && !e.shiftKey) {
