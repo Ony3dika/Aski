@@ -7,14 +7,16 @@ import Image from "next/image";
 import { useStore } from "../store";
 import loading from "../../../public/loading.svg";
 import aski from "../../../public/aski-bl.svg";
+import bot from "../../../public/bot.jpg";
+import pro from "../../../public/pro.jpg";
 import { db } from "../firebase/config.js";
 import { doc, setDoc, getDoc } from "firebase/firestore";
 import { IoSend, IoAdd, IoStop } from "react-icons/io5";
 import { SidebarTrigger } from "@/components/ui/sidebar";
+import { User2Icon } from "lucide-react";
 
 const LayoutPage = () => {
   const user = useStore((state) => state.user);
-
   const [isLoading, setIsLoading] = useState(false);
   const [messages, setMessages] = useState([]);
   const [content, setContent] = useState("");
@@ -38,8 +40,29 @@ const LayoutPage = () => {
         model: "gemini-2.0-flash",
         contents: content,
         config: {
-          systemInstruction:
-            "You are Aski, a helpful AI customer support. Only answer questions related to our products, services, orders, delivery, returns, or technical support. If the question is unrelated to customer support, politely say you cannot help with that.",
+          systemInstruction: `You are Aski, a friendly and professional AI customer support assistant. 
+          
+          Your role is to help customers with questions related to:
+            Our products (features, availability, pricing, etc.)
+
+            Orders (status, tracking, modifications, cancellations)
+
+            Delivery (shipping options, delays, expected dates)
+
+            Returns & refunds (process, eligibility, status)
+
+            Technical support (login issues, account setup, troubleshooting).
+
+            If a question falls outside of customer support, politely respond with:
+            "I'm here to assist with product, order, delivery, returns, or technical support questions. For other inquiries, I may not be the best resource."
+
+          Always:
+
+            Be concise, clear, and friendly.
+
+            Provide step-by-step guidance when needed.
+
+            If you don't know the answer, suggest contacting a human support agent by prompting the email address - support@aski.com.`,
         },
       });
 
@@ -107,7 +130,7 @@ const LayoutPage = () => {
 
   return (
     <main
-      className={`h-screen w-full md:px-10 px-5 flex flex-col justify-between relative noise`}
+      className={`lg:h-[90vh] h-screen w-full md:px-10 px-5 flex flex-col justify-between relative noise`}
     >
       <div className='flex items-center'>
         <SidebarTrigger />
@@ -118,17 +141,48 @@ const LayoutPage = () => {
       </div>
 
       {/* Chat Display */}
-      <section className={`h-full overflow-y-scroll `}>
+      <section
+        className={`h-full overflow-y-scroll [scrollbar-color:--alpha(var(--primary)/0%)_transparent] [scrollbar-width:thin]`}
+      >
         {messages.map((msg, index) => (
           <div
             key={index}
-            className={`message p-3 my-3 ${
+            className={`message md:p-3 px-3 py-2 my-3 flex  ${
               msg.role === "user"
-                ? " place-self-end rounded-br-none rounded-2xl text-white bg-primary w-fit"
-                : "text-left border border-border rounded-tl-none rounded-2xl bg-white text-primary min-w-64 md:max-w-2/3 max-w-fit"
+                ? " place-self-end rounded-2xl text-white bg-primary w-fit"
+                : "text-left border border-border rounded-2xl bg-white text-primary w-fit md:max-w-2/3 max-w-fit"
             }`}
           >
-            <Markdown>{msg.text}</Markdown>
+            {msg.role == "user" ? (
+              user.photoURL ? (
+                <Image
+                  alt='user-profile'
+                  width={200}
+                  height={200}
+                  src={userData.photoURL}
+                  className='h-4 md:h-7 w-4 md:w-7  rounded-full border border-white/30 order-2 ml-2'
+                />
+              ) : (
+                <Image
+                  alt='user-profile'
+                  width={200}
+                  height={200}
+                  src={pro}
+                  className='h-4 md:h-7 w-4 md:w-7 rounded-full border border-white/30 order-2 ml-2'
+                />
+              )
+            ) : (
+              <Image
+                className='h-4 md:h-7 w-4 md:w-7  rounded-full border border-white/30 order-1 mr-2'
+                src={bot}
+                width={200}
+                height={200}
+                alt='bot'
+              />
+            )}
+            <div className={`${msg.role === "user" ? "order-1" : "order-2"}`}>
+              <Markdown>{msg.text}</Markdown>
+            </div>
           </div>
         ))}
 
@@ -144,7 +198,7 @@ const LayoutPage = () => {
           className='w-full flex items-center justify-center'
         >
           <div
-            className={`md:h-36 h-24 bg-alt text-white backdrop-blur-md outline-none focus:border-good transition-all duration-200 ease-snappy rounded-3xl p-5 flex flex-col md:w-2/3 w-full`}
+            className={`md:h-36 h-24 bg-foreground text-white backdrop-blur-md outline-none focus:border-good transition-all duration-200 ease-snappy rounded-3xl p-5 flex flex-col md:w-2/3 w-full`}
           >
             <textarea
               placeholder='Aski something here...😊'
@@ -162,18 +216,20 @@ const LayoutPage = () => {
               {/* Add */}
               <button
                 disabled={isLoading}
-                className='p-3 rounded-full bg-primary/30 hover:bg-cta/50 scale-90 hover:scale-105 transition-all duration-300 ease-snappy border border-gray-600 cursor-pointer'
+                className='p-3 rounded-full bg-primary/30 hover:bg-primary scale-90 hover:scale-105 transition-all duration-300 ease-snappy border border-gray-600 cursor-pointer'
+                type='button'
               >
                 {" "}
                 <IoAdd />
               </button>
               {/* Send */}
               <button
-                className={`p-3 rounded-full bg-primary/30 hover:bg-cta/50 scale-90 hover:scale-105 transition-all duration-300 ease-snappy border border-gray-600 cursor-pointer ${
+                className={`p-3 rounded-full bg-primary/30 hover:bg-primary scale-90 hover:scale-105 transition-all duration-300 ease-snappy border border-gray-600 cursor-pointer ${
                   isLoading ? "animate-pulse" : ""
                 }`}
                 onClick={(e) => generateResponse(e)}
                 disabled={isLoading}
+                type='submit'
               >
                 {" "}
                 {isLoading ? <IoStop /> : <IoSend />}

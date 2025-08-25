@@ -3,20 +3,19 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../firebase/config.js";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import AppSidebar from "@/components/app-sidebar";
-import { useRouter } from "next/navigation.js";
+import { redirect } from "next/navigation.js";
 const DashBoardLayout = ({ children }) => {
-  const router = useRouter();
   const [user] = useAuthState(auth);
-  // if (!user ) {
-  //   router.push("/");
+  // if (!user) {
+  //   redirect("/");
   // }
 
   return (
     <SidebarProvider defaultOpen>
       <AppSidebar />
-      <main className='w-full bg-main'>
+      <main className='w-full h-screen bg-sidebar bg-main'>
         <section
-          className={`bg-white transition-all duration-500 ease-in-out `}
+          className={`bg-white lg:my-10 transition-all duration-500 ease-in-out md:rounded-l-lg `}
         >
           {children}
         </section>

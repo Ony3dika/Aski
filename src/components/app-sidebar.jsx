@@ -16,8 +16,9 @@ import { useStore } from "../app/store";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../app/firebase/config.js";
 import aski from "../../public/aski-wh.svg";
+import pro from "../../public/pro.jpg";
 import Image from "next/image";
-import { LogOut, User2Icon } from "lucide-react";
+import { LogOut, MessagesSquareIcon } from "lucide-react";
 import { redirect } from "next/navigation";
 const AppSidebar = () => {
   const [user] = useAuthState(auth);
@@ -47,13 +48,16 @@ const AppSidebar = () => {
                     {userData.photoURL ? (
                       <Image
                         alt='user-profile'
-                        width={200}
-                        height={200}
                         src={userData.photoURL}
                         className='h-10 w-10 rounded-full border border-white/30'
                       />
                     ) : (
-                      <User2Icon />
+                      <Image
+                        alt='user-profile'
+                        src={pro}
+                       
+                        className='h-10 w-10 object-contain rounded-full overflow-clip border border-white/30'
+                      />
                     )}
                     {userData.displayName
                       ? userData.displayName
@@ -63,6 +67,21 @@ const AppSidebar = () => {
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               )}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        {/* Chat */}
+        <SidebarGroup>
+          <SidebarGroupLabel>Tickets</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton>
+                  <MessagesSquareIcon />
+                  New Chat
+                </SidebarMenuButton>
+              </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
