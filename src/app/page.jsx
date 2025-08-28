@@ -2,8 +2,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import bg from "../../public/bg.svg";
-import aski from "../../public/aski-wh.svg";
-import aski2 from "../../public/aski-bl.svg";
+import aski from "../../public/aski.png";
 import google from "../../public/google.svg";
 import Link from "next/link";
 import {
@@ -23,8 +22,6 @@ export default function Home() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const setUser = useStore((state) => state.updateUser);
 
@@ -97,7 +94,11 @@ export default function Home() {
 
       <section className='basis-full order-1 md:order-2  md:px-52 px-5 md:py-0 py-20 flex flex-col justify-center md:items-start items-center bg-pattern2'>
         <div className='items-center flex flex-col md:py-0 py-10 justify-center w-full bg-white/90 rounded'>
-          <Image alt='aski' src={aski2} className='h-10 w-10' />
+          <Image
+            alt='aski'
+            src={aski}
+            className='h-10 w-10 border border-cta rounded-full'
+          />
           <h1 className='md:text-3xl text-xl font-bold text-primary-light text-center w-full mt-5'>
             Welcome Back
           </h1>

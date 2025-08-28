@@ -3,8 +3,7 @@ import { useState } from "react";
 import Image from "next/image";
 import bg from "../../../public/bg.svg";
 import google from "../../../public/google.svg";
-import aski from "../../../public/aski-wh.svg";
-import aski2 from "../../../public/aski-bl.svg";
+import aski from "../../../public/aski.png";
 import Link from "next/link";
 import {
   createUserWithEmailAndPassword,
@@ -97,7 +96,7 @@ const SignUpPage = () => {
 
       <section className='basis-full order-1 md:order-2  md:px-52 px-5 md:py-0 py-20 flex flex-col justify-center md:items-start items-center bg-pattern2'>
         <div className='items-center flex flex-col md:py-0 py-10 justify-center w-full bg-white/90 rounded'>
-          <Image src={aski2} alt="aski" className='h-10 w-10' />
+          <Image src={aski} alt="aski" className='h-10 w-10' />
           <h1 className='md:text-3xl text-xl font-bold text-primary-light mt-5'>
             Welcome to <span className='text-cta'>Aski</span>
           </h1>

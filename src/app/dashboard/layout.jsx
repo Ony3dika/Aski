@@ -15,7 +15,7 @@ const DashBoardLayout = ({ children }) => {
       <AppSidebar />
       <main className='w-full h-screen bg-sidebar bg-main'>
         <section
-          className={`bg-white lg:my-10 transition-all duration-500 ease-in-out md:rounded-l-lg `}
+          className={`bg-white lg:my-10 lg:mr-5 transition-all duration-500 ease-in-out md:rounded-lg `}
         >
           {children}
         </section>

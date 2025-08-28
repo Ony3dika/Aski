@@ -15,7 +15,7 @@ import { signOut } from "firebase/auth";
 import { useStore } from "../app/store";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../app/firebase/config.js";
-import aski from "../../public/aski-wh.svg";
+import aski from "../../public/aski.png";
 import pro from "../../public/pro.jpg";
 import Image from "next/image";
 import { LogOut, MessagesSquareIcon } from "lucide-react";
@@ -31,7 +31,7 @@ const AppSidebar = () => {
           <SidebarMenuItem>
             <SidebarMenuButton className={"py-5"}>
               {" "}
-              <Image src={aski} alt='aski' className='h-10 w-10' />
+              <Image src={aski} alt='aski' height={40} width={40} />
               <span>Aski</span>
             </SidebarMenuButton>
           </SidebarMenuItem>
@@ -49,14 +49,17 @@ const AppSidebar = () => {
                       <Image
                         alt='user-profile'
                         src={userData.photoURL}
-                        className='h-10 w-10 rounded-full border border-white/30'
+                        height={40}
+                        width={40}
+                        className=' rounded-full border border-white/30'
                       />
                     ) : (
                       <Image
                         alt='user-profile'
                         src={pro}
-                       
-                        className='h-10 w-10 object-contain rounded-full overflow-clip border border-white/30'
+                        height={40}
+                        width={40}
+                        className=' rounded-full overflow-clip border border-white/30'
                       />
                     )}
                     {userData.displayName
