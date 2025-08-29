@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import Image from "next/image";
-import bg from "../../../public/bg.svg";
+import bg from "../../../public/robot.jpg";
 import google from "../../../public/google.svg";
 import aski from "../../../public/aski.png";
 import Link from "next/link";
@@ -72,8 +72,8 @@ const SignUpPage = () => {
   };
 
   return (
-    <main className='bg-white h-screen flex md:flex-row flex-col px-0'>
-      <section className='basis-[40%] hidden md:block order-2 md:order-1 bg-primary text-white  h-full w-full mt-0 px-5 md:px-10 py-10 md:py-20'>
+    <main className='h-screen flex md:flex-row flex-col px-0'>
+      <section className='basis-[40%] hidden md:block order-2 md:order-1 bg-primary text-white h-full w-full mt-0 px-5 md:px-10 py-10 md:py-20'>
         <div className='flex items-center'>
           <Image src={aski} alt='aski' className='h-10 w-10 mr-3' />
           <p className='text-xl font-semibold'>Aski</p>
@@ -91,11 +91,11 @@ const SignUpPage = () => {
           Sign In
         </Link>
 
-        <Image src={bg} alt='backgound' className='rounded my-10 h-3/5' />
+        <Image src={bg} alt='backgound' className='rounded my-10 object-cover h-3/5' />
       </section>
 
       <section className='basis-full order-1 md:order-2  md:px-52 px-5 md:py-0 py-20 flex flex-col justify-center md:items-start items-center bg-pattern2'>
-        <div className='items-center flex flex-col md:py-0 py-10 justify-center w-full bg-white/90 rounded'>
+        <div className='items-center flex flex-col md:py-0 py-10 justify-center w-full rounded'>
           <Image src={aski} alt="aski" className='h-10 w-10' />
           <h1 className='md:text-3xl text-xl font-bold text-primary-light mt-5'>
             Welcome to <span className='text-cta'>Aski</span>
@@ -113,7 +113,7 @@ const SignUpPage = () => {
         <p className='text-center w-full font-semibold'>OR</p>
         <form
           onSubmit={handleSignUp}
-          className='flex flex-col items-center w-full bg-white/90 md:py-0 py-10 rounded'
+          className='flex flex-col items-center w-full md:py-0 py-10 rounded'
         >
           <input
             type='email'

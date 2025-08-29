@@ -9,7 +9,7 @@ export default function manifest() {
     theme_color: "#0d0c22",
     icons: [
       {
-        src: "/aski.png",
+        src: "/aski-pwa.png",
         sizes: "192x192",
         type: "image/svg",
       },

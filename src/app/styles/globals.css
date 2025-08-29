@@ -14,26 +14,23 @@
   --ease-snappy: cubic-bezier(0.2, 0, 0, 1);
 }
 
-.bg-pattern {
-  background: url(../../../public/bg.svg);
+.widget {
+  background: url(../../../public/robot.jpg);
   background-size: cover;
   background-repeat: no-repeat;
+  background-position: center;
 }
 
 .bg-pattern2 {
   @media (width < 48rem /* 768px */) {
-    background: url(../../../public/bg.svg);
+    background-image: linear-gradient(rgba(255, 255, 255, 0.91)), url(../../../public/robot.jpg);
     background-size: cover;
+    background-position: center center;
     background-repeat: no-repeat;
   }
 }
 
-.menu{
-  background:  #080808 url(../../../public/ttten.svg);
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center center;
-}
+
 @keyframes shake {
   0%,
   60%,
@@ -123,7 +120,6 @@
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
 }
-
 
 @layer base {
   * {

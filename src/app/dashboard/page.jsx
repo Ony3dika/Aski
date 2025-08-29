@@ -5,7 +5,7 @@ import { GoogleGenAI } from "@google/genai";
 import Markdown from "react-markdown";
 import Image from "next/image";
 import { useStore } from "../store";
-import loading from "../../../public/loading.svg";
+import loading from "../../../public/load.png";
 import aski from "../../../public/aski.png";
 import pro from "../../../public/pro.jpg";
 import { db } from "../firebase/config.js";
@@ -130,7 +130,9 @@ const LayoutPage = () => {
       console.log(response.text);
       setResponse(response.text);
     } catch (error) {
-      console.log(error);
+      let parsedError = JSON.parse(JSON.stringify(error));
+      toast.error(parsedError.name);
+      console.log(parsedError);
     } finally {
       setIsLoading(false);
       addDataToFirebase();
@@ -215,14 +217,13 @@ const LayoutPage = () => {
                 : "text-left borde rounded-2xl bg-[#f5f5f5] text-primary w-fit md:max-w-2/3 max-w-fit"
             }`}
           >
-        
             {msg.role == "user" ? (
               user.photoURL ? (
                 <Image
                   alt='user-profile'
                   width={200}
                   height={200}
-                  src={userData.photoURL}
+                  src={user.photoURL}
                   className='h-4 md:h-7 w-4 md:w-7  rounded-full border border-white/30 order-2 ml-2'
                 />
               ) : (
@@ -250,7 +251,15 @@ const LayoutPage = () => {
         ))}
 
         {isLoading && (
-          <Image src={loading} alt='Loading' className='mt-4 h-12 w-12' />
+          <div className='flex p-4 '>
+            <div className='relative flex items-center justify-center animate-pulse'>
+              {/* Rotating circle */}
+              <div className='absolute h-10 w-10 border border-blue-500 border-t-transparent rounded-full animate-spin'></div>
+
+              {/* Image inside */}
+              <Image src={loading} alt='Loading' className='md:h-6 h-5 md:w-6 w-5 z-10' />
+            </div>
+          </div>
         )}
         <div ref={bottomRef} />
       </section>

@@ -1,7 +1,6 @@
 "use client";
 import { useState } from "react";
 import Image from "next/image";
-import bg from "../../public/bg.svg";
 import aski from "../../public/aski.png";
 import google from "../../public/google.svg";
 import Link from "next/link";
@@ -71,29 +70,9 @@ export default function Home() {
   };
 
   return (
-    <main className='bg-white h-screen flex md:flex-row flex-col px-0'>
-      <section className='basis-[40%] hidden md:block order-2 md:order-1 bg-primary text-white h-full w-full mt-0 px-5 md:px-10 py-10 md:py-20'>
-        <div className='flex items-center'>
-          <Image src={aski} alt='aski' className='h-10 w-10 mr-3' />
-          <p className='text-xl font-semibold'>Aski</p>
-        </div>
-
-        <p className='text-3xl my-5 font-semibold'>
-          Sign in to continue your journey with Aski
-        </p>
-
-        <Link
-          href='/signup'
-          className='bg-cta px-5 md:px-10 py-2.5 rounded my-5 font-semibold'
-        >
-          Get Started
-        </Link>
-
-        <Image src={bg} alt='backgound' className='rounded my-10' />
-      </section>
-
-      <section className='basis-full order-1 md:order-2  md:px-52 px-5 md:py-0 py-20 flex flex-col justify-center md:items-start items-center bg-pattern2'>
-        <div className='items-center flex flex-col md:py-0 py-10 justify-center w-full bg-white/90 rounded'>
+    <main className='bg-white h-screen flex  md:flex-row flex-col md:p-10 px-0'>
+      <section className='md:basis-[60%] basis-full h-full md:px-20 px-5 md:py-0 py-20 flex flex-col justify-center md:items-start bg-pattern2 '>
+        <div className='items-center flex flex-col md:py-0 py-10 w-full rounded'>
           <Image
             alt='aski'
             src={aski}
@@ -115,7 +94,7 @@ export default function Home() {
         <p className='text-center w-full font-semibold'>OR</p>
         <form
           onSubmit={handleSignIn}
-          className='flex flex-col items-center w-full bg-white/90 md:py-0 py-10 rounded'
+          className='flex flex-col items-center w-full  md:py-0 py-10 rounded'
         >
           <input
             type='email'
@@ -160,6 +139,9 @@ export default function Home() {
             </Link>
           </p>
         </form>
+      </section>
+      <section className='basis-[40%] hidden md:block bg-primary  mt-0 md:px-10 py-10 md:py-20 widget rounded-xl'>
+       
       </section>
     </main>
   );
