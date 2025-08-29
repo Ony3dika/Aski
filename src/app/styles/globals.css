@@ -21,6 +21,10 @@
   background-position: center;
 }
 
+.bg{
+  background-color: #242424;
+}
+
 .bg-pattern2 {
   @media (width < 48rem /* 768px */) {
     background-image: linear-gradient(rgba(255, 255, 255, 0.91)), url(../../../public/robot.jpg);

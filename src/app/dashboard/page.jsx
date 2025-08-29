@@ -33,7 +33,7 @@ const LayoutPage = () => {
   const [recording, setRecording] = useState(false);
   const mediaRecorderRef = useRef(null);
   const audioChunksRef = useRef([]);
-  const [base64Audio, setBase64Audio] = useState("");
+  const [base64Audio, setBase64Audio] = useState(null);
   const [audio, setAudio] = useState("");
   const ai = new GoogleGenAI({
     apiKey: process.env.NEXT_PUBLIC_GEMINI_API_KEY,
@@ -61,7 +61,6 @@ const LayoutPage = () => {
       setBase64Audio(base64Audio);
       setAudio(URL.createObjectURL(audioBlob));
       console.log(audioBlob, base64Audio);
-     
     };
 
     mediaRecorder.start();
@@ -95,7 +94,7 @@ const LayoutPage = () => {
       ];
       const response = await ai.models.generateContent({
         model: "gemini-2.5-flash",
-        contents: contents,
+        contents: base64Audio ? contents : content,
         config: {
           systemInstruction: `You are Aski, a friendly and professional AI customer support assistant. 
           
@@ -135,6 +134,7 @@ const LayoutPage = () => {
       console.log(parsedError);
     } finally {
       setIsLoading(false);
+      setBase64Audio(null);
       addDataToFirebase();
     }
   };
@@ -162,6 +162,7 @@ const LayoutPage = () => {
     if (!user) return null;
 
     try {
+      setIsLoading(true);
       const docRef = doc(db, "chats", user.email);
       const docSnap = await getDoc(docRef);
 
@@ -177,6 +178,8 @@ const LayoutPage = () => {
     } catch (e) {
       console.error("Error fetching messages:", e);
       return null;
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -213,7 +216,7 @@ const LayoutPage = () => {
             key={index}
             className={`message md:p-3 px-3 py-2 my-3 flex  ${
               msg.role === "user"
-                ? " place-self-end rounded-2xl text-white bg-primary w-fit"
+                ? " place-self-end rounded-2xl text-white bg-[#242424] w-fit"
                 : "text-left borde rounded-2xl bg-[#f5f5f5] text-primary w-fit md:max-w-2/3 max-w-fit"
             }`}
           >
@@ -257,7 +260,11 @@ const LayoutPage = () => {
               <div className='absolute h-10 w-10 border border-blue-500 border-t-transparent rounded-full animate-spin'></div>
 
               {/* Image inside */}
-              <Image src={loading} alt='Loading' className='md:h-6 h-5 md:w-6 w-5 z-10' />
+              <Image
+                src={loading}
+                alt='Loading'
+                className='md:h-6 h-5 md:w-6 w-5 z-10'
+              />
             </div>
           </div>
         )}
@@ -270,7 +277,7 @@ const LayoutPage = () => {
           className='w-full flex items-center justify-center'
         >
           <div
-            className={`md:h-36 h-28 bg-foreground text-white backdrop-blur-md outline-none focus:border-good transition-all duration-200 ease-snappy rounded-3xl p-5 flex flex-col md:w-2/3 w-full`}
+            className={`md:h-36 h-28 bg-[#242424] text-white backdrop-blur-md transition-all duration-200 ease-snappy rounded-3xl p-5 flex flex-col md:w-2/3 w-full`}
           >
             <textarea
               placeholder='Ask a question...'
