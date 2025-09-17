@@ -37,8 +37,8 @@ const SignUpPage = () => {
 
       toast.success("Sign Up Successful");
       setTimeout(() => {
-        router.push("/dashboard");
-      }, 2000);
+        router.push("/chat");
+      }, 300);
       console.log("Google Sign-Up success:", user);
       setUser(user);
     } catch (error) {
@@ -59,7 +59,7 @@ const SignUpPage = () => {
       toast.success("Sign Up Successful");
       setTimeout(() => {
         router.push("/");
-      }, 2000);
+      }, 300);
     } catch (error) {
       if (error.code === "auth/email-already-in-use") {
         toast.error("This email is already registered.");

@@ -36,8 +36,8 @@ export default function Home() {
 
       toast.success("Login Successful");
       setTimeout(() => {
-        router.push("/dashboard");
-      }, 2000);
+        router.push("/chat");
+      }, 300);
       console.log("Google Sign-In success:", user);
       setUser(user);
     } catch (error) {
@@ -60,8 +60,8 @@ export default function Home() {
       setPassword("");
       toast.success("Sign In Successful");
       setTimeout(() => {
-        router.push("/dashboard");
-      }, 2000);
+        router.push("/chat");
+      }, 300);
     } catch (error) {
       toast.error("Invalid Credentials");
     } finally {
@@ -70,7 +70,7 @@ export default function Home() {
   };
 
   return (
-    <main className='bg-white h-screen flex  md:flex-row flex-col md:p-10 px-0'>
+    <main className='bg-[#ffffff] h-screen flex  md:flex-row flex-col md:p-10 px-0'>
       <section className='md:basis-[60%] basis-full h-full md:px-20 px-5 md:py-0 py-20 flex flex-col justify-center md:items-start bg-pattern2 '>
         <div className='items-center flex flex-col md:py-0 py-10 w-full rounded'>
           <Image

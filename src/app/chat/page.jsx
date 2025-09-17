@@ -118,7 +118,7 @@ const LayoutPage = () => {
 
             Provide step-by-step guidance when needed.
 
-            If you don't know the answer, suggest contacting a human support agent by prompting the email address - support@aski.com.`,
+            If you don't know the answer, suggest contacting a human support agent by prompting the email address enclosed in an anchor tag - support@aski.com.`,
         },
       });
 
@@ -277,13 +277,13 @@ const LayoutPage = () => {
           className='w-full flex items-center justify-center'
         >
           <div
-            className={`md:h-36 h-28 bg-[#242424] text-white backdrop-blur-md transition-all duration-200 ease-snappy rounded-3xl p-5 flex flex-col md:w-2/3 w-full`}
+            className={`md:h-36 h-28 bg-[#dbdbdb] text-primary backdrop-blur-md transition-all duration-200 ease-snappy rounded-3xl p-5 flex flex-col md:w-2/3 w-full`}
           >
             <textarea
               placeholder='Ask a question...'
               value={content}
               required
-              className=' placeholder:text-white/60 border-none outline-none resize-none h-full bg-transparent'
+              className='placeholder:text-black/60 border-none outline-none resize-none h-full bg-transparent'
               onChange={(e) => setContent(e.target.value)}
               onKeyDown={(e) => {
                 if (e.key === "Enter" && !e.shiftKey) {
@@ -295,7 +295,7 @@ const LayoutPage = () => {
               {/* Add */}
               <button
                 disabled={isLoading}
-                className='p-3 rounded-full bg-primary/30 hover:bg-primary scale-90 hover:scale-105 transition-all duration-300 ease-snappy border border-gray-600 cursor-pointer'
+                className='p-3 rounded-full bg-[#e6e6e6] hover:[#e8e8e8] scale-90 hover:scale-105 transition-all duration-300 ease-snappy border border-primary/15 cursor-pointer'
                 type='button'
               >
                 {" "}
@@ -307,7 +307,9 @@ const LayoutPage = () => {
                   <Button
                     onClick={stopRecording}
                     type='button'
-                    className={"rounded-full animate-pulse text-red-500"}
+                    className={
+                      "rounded-full bg-[#e6e6e6]  animate-pulse text-red-500"
+                    }
                   >
                     <MicOffIcon />
                   </Button>
@@ -317,7 +319,7 @@ const LayoutPage = () => {
                       <Button
                         onClick={startRecording}
                         type='button'
-                        className={"rounded-full"}
+                        className={"rounded-full bg-[#e6e6e6] text-primary hover:text-[#e6e6e6]"}
                       >
                         <MicIcon />
                       </Button>
@@ -332,7 +334,7 @@ const LayoutPage = () => {
                   <TooltipTrigger>
                     {" "}
                     <button
-                      className={`p-3 rounded-full bg-primary/30 hover:bg-primary scale-90 hover:scale-105 transition-all duration-300 ease-snappy border border-gray-600 cursor-pointer ${
+                      className={`p-3 rounded-full bg-[#e6e6e6] hover:[#e8e8e8] scale-90 hover:scale-105 transition-all duration-300 ease-snappy border border-primary/15 cursor-pointer ${
                         isLoading ? "animate-pulse" : ""
                       }`}
                       onClick={(e) => generateResponse(e)}
