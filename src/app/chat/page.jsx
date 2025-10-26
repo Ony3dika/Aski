@@ -27,6 +27,7 @@ const LayoutPage = () => {
   const user = useStore((state) => state.user);
   const [isLoading, setIsLoading] = useState(false);
   const [messages, setMessages] = useState([]);
+  const [systemInst, setSystemInst] = useState("");
   const [content, setContent] = useState("");
   const [response, setResponse] = useState("");
   const bottomRef = useRef(null);
@@ -96,29 +97,7 @@ const LayoutPage = () => {
         model: "gemini-2.5-flash",
         contents: base64Audio ? contents : content,
         config: {
-          systemInstruction: `You are Aski, a friendly and professional AI customer support assistant. 
-          
-          Your role is to help customers with questions related to:
-            Our products (features, availability, pricing, etc.)
-
-            Orders (status, tracking, modifications, cancellations)
-
-            Delivery (shipping options, delays, expected dates)
-
-            Returns & refunds (process, eligibility, status)
-
-            Technical support (login issues, account setup, troubleshooting).
-
-            If a question falls outside of customer support, politely respond with:
-            "I'm here to assist with product, order, delivery, returns, or technical support questions. For other inquiries, I may not be the best resource."
-
-          Always:
-
-            Be concise, clear, and friendly.
-
-            Provide step-by-step guidance when needed.
-
-            If you don't know the answer, suggest contacting a human support agent by prompting the email address enclosed in an anchor tag - support@aski.com.`,
+          systemInstruction: systemInst,
         },
       });
 
@@ -183,8 +162,33 @@ const LayoutPage = () => {
     }
   };
 
+  // Fetch System Instruction
+  const getSystemInstruction = async () => {
+    try {
+      setIsLoading(true);
+      const docRef = doc(db, "kb", "q2yHOFPdo5U5LQ99crJB");
+      const snap = await getDoc(docRef);
+      if (snap.exists()) {
+        const data = snap.data();
+        console.log("System Instruction fetched:", data);
+        // toast.success("System Instruction Fetched");
+        setSystemInst(data.knowledge);
+      } else {
+        console.log("No System Instruction found");
+        return;
+      }
+    } catch (e) {
+      console.error("Error fetching System Instruction:", e);
+      return null;
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  
   useEffect(() => {
     getMessagesFromFirebase(user);
+    getSystemInstruction();
   }, []);
 
   useEffect(() => {
@@ -319,7 +323,9 @@ const LayoutPage = () => {
                       <Button
                         onClick={startRecording}
                         type='button'
-                        className={"rounded-full bg-[#e6e6e6] text-primary hover:text-[#e6e6e6]"}
+                        className={
+                          "rounded-full bg-[#e6e6e6] text-primary hover:text-[#e6e6e6]"
+                        }
                       >
                         <MicIcon />
                       </Button>
