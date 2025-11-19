@@ -20,8 +20,6 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import AudioPlayer from "react-h5-audio-player";
-import "react-h5-audio-player/lib/styles.css";
 
 const LayoutPage = () => {
   const user = useStore((state) => state.user);
@@ -107,6 +105,7 @@ const LayoutPage = () => {
       setContent("");
       console.log(response.text);
       setResponse(response.text);
+      addDataToFirebase();
     } catch (error) {
       let parsedError = JSON.parse(JSON.stringify(error));
       toast.error(parsedError.name);
@@ -114,7 +113,6 @@ const LayoutPage = () => {
     } finally {
       setIsLoading(false);
       setBase64Audio(null);
-      addDataToFirebase();
     }
   };
 
@@ -185,7 +183,6 @@ const LayoutPage = () => {
     }
   };
 
-  
   useEffect(() => {
     getMessagesFromFirebase(user);
     getSystemInstruction();

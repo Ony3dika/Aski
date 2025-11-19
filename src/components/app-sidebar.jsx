@@ -32,7 +32,7 @@ const AppSidebar = () => {
             <SidebarMenuButton className={"py-5"}>
               {" "}
               <Image src={aski} alt='aski' height={40} width={40} />
-              <span>Aski</span>
+              <span className="text-3xl font-semibold italic pr-3">Aski</span>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
@@ -75,7 +75,7 @@ const AppSidebar = () => {
         </SidebarGroup>
 
         {/* Chat */}
-        <SidebarGroup>
+        {/* <SidebarGroup>
           <SidebarGroupLabel>Tickets</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
@@ -87,7 +87,7 @@ const AppSidebar = () => {
               </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
-        </SidebarGroup>
+        </SidebarGroup> */}
       </SidebarContent>
       <SidebarFooter>
         <SidebarMenu>
